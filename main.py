@@ -2,8 +2,6 @@ import requests
 from flask import Flask
 from flask import request
 from flask import redirect
-from flask_frozen import Freezer
-from myapplication import app
 
 
 def find_index(text, i1, i2):
@@ -49,13 +47,9 @@ def processIP():
 
 app = Flask('')
 
-freezer = Freezer(app)
-
 @app.route('/')
 def home():
   processIP()
   return redirect('https://google.com/', code = 302)
 
 app.run(host='0.0.0.0',port=8080)
-if __name__ == '__main__':
-    freezer.freeze()
