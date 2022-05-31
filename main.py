@@ -21,7 +21,7 @@ def parseResponse(response, ip):
   return location
 
 def processIP():
-  webhookurl = 'https://discord.com/api/webhooks/943754893687156736/4sv1mWlHRGw8q7kdaiqZPGlxNm2AS_9-Mo9vZFI9tUV907dJFkvo4G1OGZJy9jLoiwbd'
+  webhookurl = 'amongus'
 
   ip = request.headers.get('x-forwarded-for')
 
